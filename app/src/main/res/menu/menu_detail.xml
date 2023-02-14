@@ -1,0 +1,21 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.xiaoniu.fund.ui.FundDetailActivity">
+    <item
+        android:id="@+id/action_edit"
+        android:title="@string/action_edit_title"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_delete"
+        android:title="@string/action_delete_title"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_depass"
+        android:title="@string/action_depass_title"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share"
+        android:title="@string/action_share_title"
+        app:showAsAction="never" />
+</menu>

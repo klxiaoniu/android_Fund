@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Fund</string>
+    <string name="title_home">Home</string>
+    <string name="title_me">Me</string>
+    <string name="title_activity_fund_detail">FundDetailActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_login">登录</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_register">Register</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >=6 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="btn_pay">出资</string>
+    <string name="toast_no_fund_to_check">无待审核项目</string>
+    <string name="title_activity_check">审核</string>
+    <string name="toast_no_fund">已无更多</string>
+    <string name="title_activity_newfund">新建</string>
+    <string name="prompt_name">Name</string>
+    <string name="prompt_phone">Phone(+86)</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">搜索（暂只支持标题）</string>
+    <string name="toast_no_fund_search">无搜索结果，换个关键词试试</string>
+    <string name="toast_response_error">返回数据异常</string>
+    <string name="action_edit_title">编辑</string>
+    <string name="action_delete_title">删除</string>
+    <string name="action_depass_title">打回</string>
+    <string name="action_share_title">分享</string>
+    <string name="dlg_info_title">温馨提示</string>
+    <string name="dlg_cancel">取消</string>
+    <string name="dlg_confirm">确定</string>
+    <string name="title_activity_mine">我的</string>
+    <string name="toast_no_fund_mine">你还没有项目哦</string>
+    <string name="fund_in_check">审核中</string>
+    <string name="title_pls_login">请登录</string>
+    <string name="title_login_hint">登录后可享受更多功能</string>
+    <string-array name="list_me">
+        <item>登录</item>
+        <item>审核</item>
+        <item>新建</item>
+        <item>我的</item>
+        <item>退出</item>
+    </string-array>
+</resources>
