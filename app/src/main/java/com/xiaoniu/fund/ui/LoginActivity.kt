@@ -8,6 +8,8 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.fastjson.JSON
 import com.google.android.material.elevation.SurfaceColors
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.xiaoniu.fund.MyApplication
 import com.xiaoniu.fund.R
 import com.xiaoniu.fund.data.ServiceCreator
@@ -46,10 +48,12 @@ class LoginActivity : AppCompatActivity() {
         window.navigationBarColor = color // Set color of system navigationBar same as BottomNavigationView
         val register=binding.register!!
         val login=binding.login!!
-        val name=binding.name!!
-        val username=binding.username!!
-        val password=binding.password!!
-        val phone=binding.phone!!
+        val username=findViewById<TextInputEditText>(R.id.username)!!
+        val password=findViewById<TextInputEditText>(R.id.password)!!
+        val name=findViewById<TextInputEditText>(R.id.name)!!
+        val layoutName=binding.layoutName!!
+        val phone=findViewById<TextInputEditText>(R.id.phone)!!
+        val layoutPhone=binding.layoutPhone!!
 
         login.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
@@ -111,8 +115,8 @@ class LoginActivity : AppCompatActivity() {
                                 when (body["code"].toString()) {
                                     "1" -> {
                                         ToastShort("注册成功，请登录")
-                                        name.visibility = View.GONE
-                                        phone.visibility = View.GONE
+                                        layoutName.visibility = View.GONE
+                                        layoutPhone.visibility = View.GONE
                                         login.visibility = View.VISIBLE
                                         register.visibility = View.GONE
                                     }
@@ -127,8 +131,8 @@ class LoginActivity : AppCompatActivity() {
                         }
                     })
             } else {
-                name.visibility = View.VISIBLE
-                phone.visibility = View.VISIBLE
+                layoutName.visibility = View.VISIBLE
+                layoutPhone.visibility = View.VISIBLE
                 login.visibility = View.INVISIBLE
                 ToastShort("请完善身份信息后继续注册")
             }
