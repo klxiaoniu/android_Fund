@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.elevation.SurfaceColors
+import com.google.android.material.textfield.TextInputEditText
 import com.xiaoniu.fund.MyApplication.Companion.loggedInUser
 import com.xiaoniu.fund.R
 import com.xiaoniu.fund.ToastLong
@@ -167,11 +168,12 @@ class FundDetailActivity : AppCompatActivity() {
     }
 
     private fun goPay(fund: Fund) {
-        val editText = EditText(this)
-        editText.inputType = InputType.TYPE_CLASS_NUMBER
+        /*val editText = TextInputEditText(this)
+        editText.inputType = InputType.TYPE_CLASS_NUMBER*/
+        val view=layoutInflater.inflate(R.layout.dialog_pay_input,null)
         val inputDialog = MaterialAlertDialogBuilder(this)
         inputDialog.setTitle("输入出资数目")
-            .setView(editText)
+            .setView(view)
             .setCancelable(false)
             .setNegativeButton(R.string.dlg_cancel, null)
 
@@ -179,7 +181,7 @@ class FundDetailActivity : AppCompatActivity() {
             R.string.dlg_confirm
         ) { dialog, which ->
             try {
-                val payNum = editText.text.toString().toInt()
+                val payNum = view.findViewById<EditText>(R.id.paynum).text.toString().toInt()
                 if (payNum > fund.total - fund.current) {
                     ToastShort("超出所需总量，请重新填写")
                 } else {

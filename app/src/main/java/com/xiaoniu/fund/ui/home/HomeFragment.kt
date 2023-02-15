@@ -75,13 +75,13 @@ class HomeFragment : Fragment() {
                     adapter!!.setOnFootViewAttachedToWindowListener { if (body.isNotEmpty()) getData(page + 1) else ToastShort(getString(R.string.toast_no_fund)) }
                     adapter!!.setOnFootViewClickListener { if (body.isNotEmpty()) getData(page + 1) else ToastShort(getString(R.string.toast_no_fund)) }
                 } else ToastShort(getString(R.string.toast_response_error))
-                    binding.homeSwipe.isRefreshing = false
+                binding.homeSwipe.isRefreshing = false
             }
             override fun onFailure(call: Call<List<Fund>>, t: Throwable) {
                 t.printStackTrace()
-                ToastLong(t.toString())
+                ToastLong(t.toString())     //TODO:修复page1加载失败后无法下拉刷新的问题
                 adapter?.setOnFootViewClickListener { getData(page) }   //重新获取当前页
-                    binding.homeSwipe.isRefreshing = false
+                binding.homeSwipe.isRefreshing = false
             }
         })
 
