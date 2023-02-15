@@ -11,11 +11,12 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 object ServiceCreator {
-    private const val BASE_URL = "http://10.0.2.2:8080/api/"
+    const val BASE_URL = "http://10.0.2.2:8080/"
     private val retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(BASE_URL + "api/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
     fun <T> create(serviceClass: Class<T>): T = retrofit.create(serviceClass)
     inline fun <reified T> create(): T = create(T::class.java)
 

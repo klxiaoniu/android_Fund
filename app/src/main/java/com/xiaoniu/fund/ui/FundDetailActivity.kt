@@ -83,7 +83,7 @@ class FundDetailActivity : AppCompatActivity() {
                         .placeholder(R.drawable.loading)
                         .error(R.drawable.error)
                     Glide.with(applicationContext)
-                        .load(fund.pic)
+                        .load(ServiceCreator.BASE_URL + fund.pic)
                         .apply(options)
                         .into(binding.fundIv)
 
@@ -170,7 +170,7 @@ class FundDetailActivity : AppCompatActivity() {
     private fun goPay(fund: Fund) {
         /*val editText = TextInputEditText(this)
         editText.inputType = InputType.TYPE_CLASS_NUMBER*/
-        val view=layoutInflater.inflate(R.layout.dialog_pay_input,null)
+        val view = layoutInflater.inflate(R.layout.dialog_pay_input, null)
         val inputDialog = MaterialAlertDialogBuilder(this)
         inputDialog.setTitle("输入出资数目")
             .setView(view)
