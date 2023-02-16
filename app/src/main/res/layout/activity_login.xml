@@ -29,8 +29,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true"
-            android:text="1422896109@qq.com" />
+            android:selectAllOnFocus="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -51,8 +50,7 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:inputType="textPassword"
-            android:selectAllOnFocus="true"
-            android:text="111111" />
+            android:selectAllOnFocus="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

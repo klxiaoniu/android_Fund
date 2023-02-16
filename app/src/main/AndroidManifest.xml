@@ -47,8 +47,7 @@
             android:label="@string/title_activity_check" />
         <activity
             android:name=".ui.FundDetailActivity"
-            android:exported="false"
-            android:label="@string/title_activity_fund_detail" />
+            android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
