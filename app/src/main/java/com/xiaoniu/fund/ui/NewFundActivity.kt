@@ -30,6 +30,7 @@ import java.io.File
 class NewFundActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewFundBinding
+    private var pictureUrl: String = ""
 
     // 定义常量
     companion object {
@@ -76,7 +77,7 @@ class NewFundActivity : AppCompatActivity() {
                 getToken(),
                 binding.newTitle.text.toString(),
                 binding.newDesc.text.toString(),
-                binding.newPicture.text.toString(),
+                pictureUrl,
                 binding.newTotal.text.toString()
             ).enqueue(object : Callback<Map<String, Object>> {
                 override fun onResponse(
@@ -147,7 +148,8 @@ class NewFundActivity : AppCompatActivity() {
                         when (data["code"].toString()) {
                             "1" -> {
                                 ToastShort("上传成功")
-                                binding.newPicture.setText(data["message"].toString())
+                                binding.newPicture.setText("已选择")
+                                pictureUrl = data["message"].toString()   //地址不外显
                             }
                             "0" -> ToastLong("上传失败：" + data["message"].toString())
                         }
