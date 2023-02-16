@@ -46,8 +46,8 @@ class FundAdapter(var list: List<Fund>, val mode: Int) :     //mode 0:首页 1:�
             holder.fund_title.text = list[position].title
             holder.fund_desc.text = list[position].desc
             holder.fund_cur_total.text = "" + list[position].current + "/" + list[position].total
-            if ((mode == 2) && (list[position].isPass == 0)) holder.fund_in_check.visibility =
-                View.VISIBLE
+            holder.fund_in_check.visibility =
+                if ((mode == 2) && (list[position].isPass == 0)) View.VISIBLE else View.GONE
             holder.itemView.setOnClickListener {
                 val position = holder.adapterPosition
                 val fund = list[position]
