@@ -2,13 +2,9 @@ package com.xiaoniu.fund.ui
 
 import android.app.SearchManager
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
-import androidx.appcompat.app.ActionBar
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.elevation.SurfaceColors
 import com.xiaoniu.fund.R
 import com.xiaoniu.fund.ToastLong
 import com.xiaoniu.fund.ToastShort
@@ -17,31 +13,17 @@ import com.xiaoniu.fund.data.Fund
 import com.xiaoniu.fund.data.FundAdapter
 import com.xiaoniu.fund.data.FundService
 import com.xiaoniu.fund.data.ServiceCreator
-import com.xiaoniu.fund.databinding.ActivityCheckBinding
 import com.xiaoniu.fund.databinding.ActivitySearchBinding
-import com.xiaoniu.fund.utils.getToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
-    private lateinit var binding: ActivitySearchBinding
     private var adapter: FundAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val actionBar: ActionBar? = supportActionBar
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true)
-            actionBar.setDisplayHomeAsUpEnabled(true)
-        }
-        val color = SurfaceColors.SURFACE_2.getColor(this)
-        window.statusBarColor = color // Set color of system statusBar same as ActionBar
-        window.navigationBarColor = color // Set color of system navigationBar same as BottomNavigationView
 
         if (Intent.ACTION_SEARCH == intent.action) {
             intent.getStringExtra(SearchManager.QUERY)?.also { query ->
@@ -82,15 +64,6 @@ class SearchActivity : AppCompatActivity() {
                 binding.swipe.isRefreshing=false
             }
         })
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish() // back button
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
 }

@@ -1,21 +1,15 @@
 package com.xiaoniu.fund.ui
 
 import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.fastjson.JSON
-import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.xiaoniu.fund.MyApplication
 import com.xiaoniu.fund.R
-import com.xiaoniu.fund.data.ServiceCreator
-import com.xiaoniu.fund.data.ServiceCreator.await
 import com.xiaoniu.fund.ToastLong
 import com.xiaoniu.fund.ToastShort
+import com.xiaoniu.fund.data.ServiceCreator
+import com.xiaoniu.fund.data.ServiceCreator.await
 import com.xiaoniu.fund.data.User
 import com.xiaoniu.fund.data.UserService
 import com.xiaoniu.fund.databinding.ActivityLoginBinding
@@ -30,24 +24,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class LoginActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityLoginBinding
+class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val actionBar: ActionBar? = supportActionBar
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true)
-            actionBar.setDisplayHomeAsUpEnabled(true)
-        }
-        val color = SurfaceColors.SURFACE_2.getColor(this)
-        window.statusBarColor = color // Set color of system statusBar same as ActionBar
-        window.navigationBarColor = color // Set color of system navigationBar same as BottomNavigationView
+
         val register=binding.register!!
-        val login=binding.login!!
+        val login= binding.login
         val username=findViewById<TextInputEditText>(R.id.username)!!
         val password=findViewById<TextInputEditText>(R.id.password)!!
         val name=findViewById<TextInputEditText>(R.id.name)!!
@@ -140,13 +123,4 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.getItemId()) {
-            android.R.id.home -> {
-                finish() // back button
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 }

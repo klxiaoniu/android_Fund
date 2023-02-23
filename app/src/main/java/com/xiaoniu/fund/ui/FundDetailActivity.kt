@@ -2,20 +2,15 @@ package com.xiaoniu.fund.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
 import android.widget.EditText
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.elevation.SurfaceColors
-import com.google.android.material.textfield.TextInputEditText
 import com.xiaoniu.fund.MyApplication.Companion.loggedInUser
 import com.xiaoniu.fund.R
 import com.xiaoniu.fund.ToastLong
@@ -33,32 +28,16 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.log
 import kotlin.properties.Delegates
 
 
-class FundDetailActivity : AppCompatActivity() {
+class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
 
-    private lateinit var binding: ActivityFundDetailBinding
     private var fundId by Delegates.notNull<Long>()
     private var thisUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFundDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val actionBar: ActionBar? = supportActionBar
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true)
-            actionBar.setDisplayHomeAsUpEnabled(true)
-        }
-
-
-        val color = SurfaceColors.SURFACE_2.getColor(this)
-        window.statusBarColor = color // Set color of system statusBar same as ActionBar
-        window.navigationBarColor =
-            color // Set color of system navigationBar same as BottomNavigationView
 
         fundId = intent.getLongExtra("fund_id", -1)
         //Toast.makeText(appContext, "" + id, Toast.LENGTH_SHORT).show()

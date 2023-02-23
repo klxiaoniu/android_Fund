@@ -1,22 +1,16 @@
 package com.xiaoniu.fund.ui
 
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.MenuItem
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.ActionBar
-import com.google.android.material.elevation.SurfaceColors
 import com.xiaoniu.fund.R
-import com.xiaoniu.fund.data.FundService
-import com.xiaoniu.fund.data.ServiceCreator
 import com.xiaoniu.fund.ToastLong
 import com.xiaoniu.fund.ToastShort
+import com.xiaoniu.fund.data.FundService
+import com.xiaoniu.fund.data.ServiceCreator
 import com.xiaoniu.fund.databinding.ActivityNewFundBinding
 import com.xiaoniu.fund.utils.getToken
 import okhttp3.MediaType
@@ -27,9 +21,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class NewFundActivity : AppCompatActivity() {
+class NewFundActivity : BaseActivity<ActivityNewFundBinding>() {
 
-    private lateinit var binding: ActivityNewFundBinding
     private var pictureUrl: String = ""
 
     // 定义常量
@@ -39,17 +32,7 @@ class NewFundActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityNewFundBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        val actionBar: ActionBar? = supportActionBar
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true)
-            actionBar.setDisplayHomeAsUpEnabled(true)
-        }
-        val color = SurfaceColors.SURFACE_2.getColor(this)
-        window.statusBarColor = color // Set color of system statusBar same as ActionBar
-        window.navigationBarColor =
-            color // Set color of system navigationBar same as BottomNavigationView
+
         val pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                 // Callback is invoked after the user selects a media item or closes the
@@ -107,17 +90,6 @@ class NewFundActivity : AppCompatActivity() {
 
         }
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish() // back button
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
 
     // 处理图片选择器返回的结果
 /*    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

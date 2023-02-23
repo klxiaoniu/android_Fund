@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.alibaba.fastjson.JSON
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.elevation.SurfaceColors
 import com.xiaoniu.fund.MyApplication.Companion.loggedInUser
 import com.xiaoniu.fund.R
 import com.xiaoniu.fund.ToastLong
@@ -30,20 +28,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val color = SurfaceColors.SURFACE_2.getColor(this)
-        window.statusBarColor = color // Set color of system statusBar same as ActionBar
-        window.navigationBarColor =
-            color // Set color of system navigationBar same as BottomNavigationView
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)  //移除左上角返回按钮
 
         val navView: BottomNavigationView = binding.navView
         val mainViewPager: ViewPager2 = binding.mainViewPager
@@ -93,7 +83,7 @@ class MainActivity : AppCompatActivity() {
         if (getToken() != "") {
             GlobalScope.launch(Dispatchers.Main) {
                 val userService = ServiceCreator.create<UserService>()
-                var list = userService.loginWithToken(getToken()).await()
+                val list = userService.loginWithToken(getToken()).await()
                 when (list["code"].toString()) {
                     "1" -> {
                         try {
