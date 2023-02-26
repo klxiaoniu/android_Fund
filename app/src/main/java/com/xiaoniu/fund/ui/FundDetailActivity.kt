@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.xiaoniu.fund.MyApplication.Companion.loggedInUser
+import com.xiaoniu.fund.MyApplication.Companion.updateUser
 import com.xiaoniu.fund.R
 import com.xiaoniu.fund.ToastLong
 import com.xiaoniu.fund.ToastShort
@@ -178,6 +179,7 @@ class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
                                         "1" -> {
                                             ToastShort("支付成功")
                                             getData()  //刷新数据显示
+                                            updateUser()    //刷新用户信息
                                         }
                                         "0" -> {
                                             ToastLong("支付失败：" + body["message"].toString())

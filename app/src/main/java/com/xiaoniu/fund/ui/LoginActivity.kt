@@ -2,19 +2,15 @@ package com.xiaoniu.fund.ui
 
 import android.os.Bundle
 import android.view.View
-import com.alibaba.fastjson.JSON
 import com.google.android.material.textfield.TextInputEditText
-import com.xiaoniu.fund.MyApplication
+import com.xiaoniu.fund.MyApplication.Companion.updateUser
 import com.xiaoniu.fund.R
 import com.xiaoniu.fund.ToastLong
 import com.xiaoniu.fund.ToastShort
 import com.xiaoniu.fund.data.ServiceCreator
 import com.xiaoniu.fund.data.ServiceCreator.await
-import com.xiaoniu.fund.data.User
 import com.xiaoniu.fund.data.UserService
 import com.xiaoniu.fund.databinding.ActivityLoginBinding
-import com.xiaoniu.fund.utils.getToken
-import com.xiaoniu.fund.utils.rmToken
 import com.xiaoniu.fund.utils.setToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -48,24 +44,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                         setToken(list["message"].toString())
                         ToastShort("登录成功")
 
-                        list = userService.loginWithToken(getToken()).await()
-                        when (list["code"].toString()) {
-                            "1" -> {
-                                try {
-                                    MyApplication.loggedInUser = JSON.parseObject(
-                                        JSON.toJSONString(list["message"]),
-                                        User::class.java
-                                    )
-                                } catch (e: java.lang.Exception) {
-                                    ToastLong(e.toString())
-                                }
-                            }
-                            "0" -> {
-                                ToastLong("Token无效，请重新登录：" + list["message"].toString())
-                                rmToken()
-                            }
-                        }
-
+                        updateUser()
                         finish()
                     }
                     "0" -> {
