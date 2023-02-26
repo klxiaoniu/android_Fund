@@ -19,7 +19,7 @@ import retrofit2.Response
 
 class CheckActivity : BaseActivity<ActivityCheckBinding>() {
 
-    private var adapter: FundAdapter? = null
+    lateinit var adapter: FundAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,32 +28,34 @@ class CheckActivity : BaseActivity<ActivityCheckBinding>() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.checkRv.layoutManager = layoutManager
 
+        adapter = FundAdapter(emptyList(), 1)
+        binding.checkRv.adapter = adapter
         binding.checkSwipe.setOnRefreshListener { getData() }
         getData()
     }
+
     private fun getData() {
-        binding.checkSwipe.isRefreshing=true
+        binding.checkSwipe.isRefreshing = true
         val fundService = ServiceCreator.create<FundService>()
         fundService.getFundsToCheck(getToken()).enqueue(object : Callback<List<Fund>> {
-            override fun onResponse(call: Call<List<Fund>>,
-                                    response: Response<List<Fund>>
+            override fun onResponse(
+                call: Call<List<Fund>>,
+                response: Response<List<Fund>>
             ) {
                 val list = response.body()
-                Log.d("List",list.toString())
+                Log.d("List", list.toString())
                 if (list != null) {
-                    if (adapter == null) {
-                        adapter = FundAdapter(list, 1)
-                        binding.checkRv.adapter = adapter
-                    } else adapter!!.setAdapterList(list)
-                    if (adapter!!.itemCount == 1)
+                    adapter.setAdapterList(list)
+                    if (adapter.itemCount == 1)
                         ToastShort(getString(R.string.toast_no_fund_to_check))
                 } else ToastShort(getString(R.string.toast_response_error))
-                binding.checkSwipe.isRefreshing=false
+                binding.checkSwipe.isRefreshing = false
             }
+
             override fun onFailure(call: Call<List<Fund>>, t: Throwable) {
                 t.printStackTrace()
-                t.message?.let { ToastLong(it) }
-                binding.checkSwipe.isRefreshing=false
+                ToastLong(t.toString())
+                binding.checkSwipe.isRefreshing = false
             }
         })
     }

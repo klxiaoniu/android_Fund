@@ -20,7 +20,7 @@ import retrofit2.Response
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>() {
 
-    private var adapter: FundAdapter? = null
+    lateinit var adapter: FundAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,10 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
                 layoutManager.orientation = LinearLayoutManager.VERTICAL
                 binding.rv.layoutManager = layoutManager
 
-                title= "搜索结果：$query"
+                title = "搜索结果：$query"
+
+                adapter = FundAdapter(emptyList(), 0)
+                binding.rv.adapter = adapter
                 binding.swipe.setOnRefreshListener { getData(query) }
                 getData(query)
 
@@ -40,28 +43,27 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>() {
     }
 
     private fun getData(query: String) {
-        binding.swipe.isRefreshing=true
+        binding.swipe.isRefreshing = true
         val fundService = ServiceCreator.create<FundService>()
         fundService.searchFunds(query).enqueue(object : Callback<List<Fund>> {
-            override fun onResponse(call: Call<List<Fund>>,
-                                    response: Response<List<Fund>>
+            override fun onResponse(
+                call: Call<List<Fund>>,
+                response: Response<List<Fund>>
             ) {
                 val list = response.body()
-                Log.d("List",list.toString())
+                Log.d("List", list.toString())
                 if (list != null) {
-                    if (adapter == null) {
-                        adapter = FundAdapter(list, 0)
-                        binding.rv.adapter = adapter
-                    } else adapter!!.setAdapterList(list)
-                    if (adapter!!.itemCount == 1)
+                    adapter.setAdapterList(list)
+                    if (adapter.itemCount == 1)
                         ToastShort(getString(R.string.toast_no_fund_search))
                 } else ToastShort(getString(R.string.toast_response_error))
-                binding.swipe.isRefreshing=false
+                binding.swipe.isRefreshing = false
             }
+
             override fun onFailure(call: Call<List<Fund>>, t: Throwable) {
                 t.printStackTrace()
-                t.message?.let { ToastLong(it) }
-                binding.swipe.isRefreshing=false
+                ToastLong(t.toString())
+                binding.swipe.isRefreshing = false
             }
         })
     }

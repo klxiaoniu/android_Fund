@@ -21,7 +21,7 @@ import retrofit2.Response
 
 class MineActivity : BaseActivity<ActivityMineBinding>() {
 
-    private var adapter: FundAdapter? = null
+    lateinit var adapter: FundAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,9 @@ class MineActivity : BaseActivity<ActivityMineBinding>() {
         val layoutManager = LinearLayoutManager(appContext)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.rv.layoutManager = layoutManager
+
+        adapter = FundAdapter(emptyList(), 2)
+        binding.rv.adapter = adapter
         binding.swipe.setOnRefreshListener { getData() }
         getData()
     }
@@ -57,18 +60,15 @@ class MineActivity : BaseActivity<ActivityMineBinding>() {
                 val list = response.body()
                 Log.d("List",list.toString())
                 if (list != null) {
-                    if (adapter == null) {
-                        adapter = FundAdapter(list, 2)
-                        binding.rv.adapter = adapter
-                    } else adapter!!.setAdapterList(list)
-                    if (adapter!!.itemCount == 1)
+                    adapter.setAdapterList(list)
+                    if (adapter.itemCount == 1)
                         ToastShort(getString(R.string.toast_no_fund_mine))
                 } else ToastShort(getString(R.string.toast_response_error))
                 binding.swipe.isRefreshing=false
             }
             override fun onFailure(call: Call<List<Fund>>, t: Throwable) {
                 t.printStackTrace()
-                t.message?.let { ToastLong(it) }
+                ToastLong(t.toString())
                 binding.swipe.isRefreshing=false
             }
         })

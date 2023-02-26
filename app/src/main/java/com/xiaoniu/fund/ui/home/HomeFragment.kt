@@ -21,7 +21,7 @@ import retrofit2.Response
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
-    private var adapter: FundAdapter? = null
+    lateinit var adapter: FundAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -50,6 +50,8 @@ class HomeFragment : Fragment() {
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         binding.homeRv.layoutManager = layoutManager
 
+        adapter = FundAdapter(emptyList(), 0)
+        binding.homeRv.adapter = adapter
         getData(1)
         //Toast.makeText(appContext,"Load",Toast.LENGTH_SHORT).show()
         //AS默认模板存在切换Fragment重载问题，网上代码(重写)由于FragmentNavigator版本不同不可参考 —— 使用viewpager2解决
@@ -58,29 +60,36 @@ class HomeFragment : Fragment() {
     }
 
     private fun getData(page: Int) {
+        Log.d("page", page.toString())
         binding.homeSwipe.isRefreshing = true
         val fundService = ServiceCreator.create<FundService>()
         fundService.getFunds(page).enqueue(object : Callback<List<Fund>> {
-            override fun onResponse(call: Call<List<Fund>>,
-                                    response: Response<List<Fund>>
+            override fun onResponse(
+                call: Call<List<Fund>>,
+                response: Response<List<Fund>>
             ) {
                 val body = response.body()
-                Log.d("List",body.toString())
+                Log.d("List", body.toString())
                 if (body != null) {
-                    if (page == 1 || adapter == null) {
-                        adapter = FundAdapter(body, 0)
-                        binding.homeRv.adapter = adapter
+                    adapter.plusAdapterList(body)
+                    adapter.setOnFootViewAttachedToWindowListener {
+                        if (body.isNotEmpty()) getData(
+                            page + 1
+                        ) else ToastShort(getString(R.string.toast_no_fund))
                     }
-                    else adapter!!.plusAdapterList(body)
-                    adapter!!.setOnFootViewAttachedToWindowListener { if (body.isNotEmpty()) getData(page + 1) else ToastShort(getString(R.string.toast_no_fund)) }
-                    adapter!!.setOnFootViewClickListener { if (body.isNotEmpty()) getData(page + 1) else ToastShort(getString(R.string.toast_no_fund)) }
+                    adapter.setOnFootViewClickListener {
+                        if (body.isNotEmpty()) getData(page + 1) else ToastShort(
+                            getString(R.string.toast_no_fund)
+                        )
+                    }
                 } else ToastShort(getString(R.string.toast_response_error))
                 binding.homeSwipe.isRefreshing = false
             }
+
             override fun onFailure(call: Call<List<Fund>>, t: Throwable) {
                 t.printStackTrace()
-                ToastLong(t.toString())     //TODO:修复page1加载失败后无法下拉刷新的问题
-                adapter?.setOnFootViewClickListener { getData(page) }   //重新获取当前页
+                ToastLong(t.toString())
+                adapter.setOnFootViewClickListener { getData(page) }   //重新获取当前页
                 binding.homeSwipe.isRefreshing = false
             }
         })
