@@ -1,7 +1,6 @@
 package com.xiaoniu.fund.data
 
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,11 +56,12 @@ class FundAdapter(var list: List<Fund>, val mode: Int) :     //mode 0:首页 1:�
                 it.context.startActivity(intent)
             }
         } else if (holder is FootViewHolder) {
-            holder.tv_msg.text = "加载更多"
+            holder.tv_msg.visibility = if (itemCount == 1) View.GONE else View.VISIBLE
+            //无项目时（往往正加载）不显示footview
 
             //当点击footview时，将该事件回调出去
             holder.tv_msg.setOnClickListener {
-                footViewClickListener.invoke("")
+                footViewClickListener.invoke()
             }
         }
 
@@ -107,8 +107,8 @@ class FundAdapter(var list: List<Fund>, val mode: Int) :     //mode 0:首页 1:�
     }
 
     //定义footview点击时的回调
-    private var footViewClickListener: (String) -> Unit = { ToastShort("已无更多") }  //如果是默认，说明不是分页查询
-    fun setOnFootViewClickListener(pListner: (String) -> Unit) {
-        this.footViewClickListener = pListner
+    private var footViewClickListener: () -> Unit = { ToastShort("已无更多") }  //如果是默认，说明不是分页查询
+    fun setOnFootViewClickListener(pListener: () -> Unit) {
+        this.footViewClickListener = pListener
     }
 }
