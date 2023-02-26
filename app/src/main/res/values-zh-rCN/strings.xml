@@ -34,6 +34,7 @@
     <string name="title_pls_login">请登录</string>
     <string name="title_login_hint">登录后可享受更多功能</string>
     <string name="dlg_loading">请稍候……</string>
+    <string name="item_foot_load_more">加载更多</string>
     <string-array name="list_me">
         <item>登录</item>
         <item>审核</item>
