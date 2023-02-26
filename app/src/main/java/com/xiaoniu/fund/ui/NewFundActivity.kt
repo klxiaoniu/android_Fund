@@ -1,12 +1,7 @@
 package com.xiaoniu.fund.ui
 
-import android.content.ContentUris
-import android.content.Context
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.provider.DocumentsContract
-import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -50,6 +45,7 @@ class NewFundActivity : BaseActivity<ActivityNewFundBinding>() {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
         binding.newSubmit.setOnClickListener {      //TODO:合法性本地判断
+            showLoading()
             val fundService = ServiceCreator.create<FundService>()
             fundService.newFund(
                 getToken(),
@@ -75,11 +71,13 @@ class NewFundActivity : BaseActivity<ActivityNewFundBinding>() {
                             }
                         }
                     } else ToastShort(getString(R.string.toast_response_error))
+                    dismissLoading()
                 }
 
                 override fun onFailure(call: Call<Map<String, Object>>, t: Throwable) {
                     t.printStackTrace()
                     ToastLong(t.toString())
+                    dismissLoading()
                 }
             })
 
@@ -93,6 +91,7 @@ class NewFundActivity : BaseActivity<ActivityNewFundBinding>() {
             ToastShort("图片路径解析失败！可能的原因是尚未适配当前安卓版本")
             return
         }
+        showLoading()
         val file = File(filePath)
         val requestBody = RequestBody.create(MediaType.parse("image/jpeg"), file)
         val multipartBody = MultipartBody.Part.createFormData("file", file.name, requestBody)
@@ -116,9 +115,9 @@ class NewFundActivity : BaseActivity<ActivityNewFundBinding>() {
                     } else {
                         // 获取响应的错误码
                         val code = response.code()
-                        // 显示提示
                         ToastShort("上传失败，错误码：$code")
                     }
+                    dismissLoading()
                 }
 
                 override fun onFailure(call: Call<Map<String, Object>>, t: Throwable) {
@@ -126,6 +125,7 @@ class NewFundActivity : BaseActivity<ActivityNewFundBinding>() {
                     val message = t.message
                     // 显示提示
                     ToastLong("上传失败，错误信息为：$message")
+                    dismissLoading()
                 }
             })
     }

@@ -158,12 +158,13 @@ class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
 
         inputDialog.setPositiveButton(
             R.string.dlg_confirm
-        ) { dialog, which ->
+        ) { _, _ ->
             try {
                 val payNum = view.findViewById<EditText>(R.id.paynum).text.toString().toInt()
                 if (payNum > fund.total - fund.current) {
                     ToastShort("超出所需总量，请重新填写")
                 } else {
+                    showLoading()
                     val fundService = ServiceCreator.create<FundService>()  //实际应用中需接入相关支付SDK
                     fundService.fundAddPay(getToken(), fundId, payNum)
                         .enqueue(object : Callback<Map<String, Object>> {
@@ -183,11 +184,13 @@ class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
                                         }
                                     }
                                 } else ToastShort(getString(R.string.toast_response_error))
+                                dismissLoading()
                             }
 
                             override fun onFailure(call: Call<Map<String, Object>>, t: Throwable) {
                                 t.printStackTrace()
-                                t.message?.let { it1 -> ToastLong(it1) }
+                                ToastLong(t.toString())
+                                dismissLoading()
                             }
                         })
                 }

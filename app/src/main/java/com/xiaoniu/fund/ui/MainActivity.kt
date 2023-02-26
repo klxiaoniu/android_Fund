@@ -100,9 +100,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                         rmToken()
                     }
                 }
-
             }
-
         }
     }
 

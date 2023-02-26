@@ -29,20 +29,21 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val register=binding.register!!
-        val login= binding.login
-        val username=findViewById<TextInputEditText>(R.id.username)!!
-        val password=findViewById<TextInputEditText>(R.id.password)!!
-        val name=findViewById<TextInputEditText>(R.id.name)!!
-        val layoutName=binding.layoutName!!
-        val phone=findViewById<TextInputEditText>(R.id.phone)!!
-        val layoutPhone=binding.layoutPhone!!
+        val register = binding.register!!
+        val login = binding.login
+        val username = findViewById<TextInputEditText>(R.id.username)!!
+        val password = findViewById<TextInputEditText>(R.id.password)!!
+        val name = findViewById<TextInputEditText>(R.id.name)!!
+        val layoutName = binding.layoutName!!
+        val phone = findViewById<TextInputEditText>(R.id.phone)!!
+        val layoutPhone = binding.layoutPhone!!
 
         login.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 val userService = ServiceCreator.create<UserService>()
-                var list = userService.signin(username.text.toString(), password.text.toString()).await()
-                when(list["code"].toString()) {
+                var list =
+                    userService.signin(username.text.toString(), password.text.toString()).await()
+                when (list["code"].toString()) {
                     "1" -> {
                         setToken(list["message"].toString())
                         ToastShort("登录成功")
@@ -68,7 +69,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                         finish()
                     }
                     "0" -> {
-                        ToastLong("登录失败："+list["message"].toString())
+                        ToastLong("登录失败：" + list["message"].toString())
                     }
                 }
 
@@ -77,9 +78,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         }
 
         register.setOnClickListener {
-//                loading.visibility = View.VISIBLE
-//New activity? 补充更多信息
-            //register.isEnabled=false
             if (name.text.toString() != "" && phone.text.toString() != "") {
                 val userService = ServiceCreator.create<UserService>()
                 userService.register(
