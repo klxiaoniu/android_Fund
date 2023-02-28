@@ -1,5 +1,7 @@
 package com.xiaoniu.fund.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +36,10 @@ class MineActivity : BaseActivity<ActivityMineBinding>() {
         }
         binding.userName.text = loggedInUser?.name
         binding.userPoint.text = "爱心值：" + loggedInUser?.point
+        binding.editProfile.setOnClickListener {
+            val intent = Intent(applicationContext, ProfileEditActivity::class.java)
+            startActivity(intent)
+        }
         val options = RequestOptions()
             .placeholder(R.drawable.loading)
             .error(R.drawable.error)
@@ -50,26 +56,29 @@ class MineActivity : BaseActivity<ActivityMineBinding>() {
         binding.swipe.setOnRefreshListener { getData() }
         getData()
     }
+
     private fun getData() {
-        binding.swipe.isRefreshing=true
+        binding.swipe.isRefreshing = true
         val fundService = ServiceCreator.create<FundService>()
         fundService.getOneFunds(loggedInUser?.id!!).enqueue(object : Callback<List<Fund>> {
-            override fun onResponse(call: Call<List<Fund>>,
-                                    response: Response<List<Fund>>
+            override fun onResponse(
+                call: Call<List<Fund>>,
+                response: Response<List<Fund>>
             ) {
                 val list = response.body()
-                Log.d("List",list.toString())
+                Log.d("List", list.toString())
                 if (list != null) {
                     adapter.setAdapterList(list)
                     if (adapter.itemCount == 1)
                         ToastShort(getString(R.string.toast_no_fund_mine))
                 } else ToastShort(getString(R.string.toast_response_error))
-                binding.swipe.isRefreshing=false
+                binding.swipe.isRefreshing = false
             }
+
             override fun onFailure(call: Call<List<Fund>>, t: Throwable) {
                 t.printStackTrace()
                 ToastLong(t.toString())
-                binding.swipe.isRefreshing=false
+                binding.swipe.isRefreshing = false
             }
         })
     }

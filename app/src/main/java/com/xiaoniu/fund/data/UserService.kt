@@ -24,7 +24,13 @@ interface UserService {
         @Query("token") token: String
     ): Call<Map<String, Object>>
 
+    @POST("updateuser")
+    fun updateUser(
+        @Query("token") token: String,
+        @Query("email") email: String,
+        @Query("name") name: String,
+        @Query("phone") phone: String,
+        @Query("password") password: String
+    ): Call<Map<String, Object>>
 
-    //@GET("users/{id}")
-    //fun getUser(@Path("id")id: Long): Call<User>
 }

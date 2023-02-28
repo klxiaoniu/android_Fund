@@ -37,6 +37,7 @@ class MyApplication : Application() {
                             )
                         } catch (e: java.lang.Exception) {
                             ToastLong(e.toString())
+                            loggedInUser = null
                         }
                     }
                     "0" -> {
