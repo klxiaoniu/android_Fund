@@ -41,8 +41,10 @@ class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
         super.onCreate(savedInstanceState)
 
         fundId = intent.getLongExtra("fund_id", -1)
-        //Toast.makeText(appContext, "" + id, Toast.LENGTH_SHORT).show()
-
+        if (fundId == java.lang.Long.valueOf(-1)) {
+            finish()
+            return
+        }
         getData()
     }
 
@@ -57,7 +59,11 @@ class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
                 if (fund != null) {
                     binding.fundTitle.text = fund.title
                     binding.fundDesc.text = fund.desc
-                    binding.fundCurTotal.text = "" + fund.current + "/" + fund.total
+                    binding.fundCurTotal.text = "￥" + fund.current + "/" + fund.total
+                    binding.progress.max = fund.total
+                    binding.progress.progress = fund.current
+                    binding.percentage.text =
+                        String.format("%.1f", (fund.current * 100.0 / fund.total)) + "%"
                     title = fund.title
                     val options = RequestOptions()
                         .placeholder(R.drawable.loading)
