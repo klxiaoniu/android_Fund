@@ -37,6 +37,11 @@
     <string name="item_foot_load_more">加载更多</string>
     <string name="action_submit">确认修改</string>
     <string name="btn_edit_profile">编辑资料</string>
+    <string name="new_title">标题</string>
+    <string name="new_description">描述</string>
+    <string name="new_picture">图片</string>
+    <string name="new_total_needed">总需</string>
+    <string name="new_ubmit">提交</string>
     <string-array name="list_me">
         <item>登录</item>
         <item>审核</item>
