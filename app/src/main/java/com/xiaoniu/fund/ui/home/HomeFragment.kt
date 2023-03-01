@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
                 val body = response.body()
                 Log.d("List", body.toString())
                 if (body != null) {
-                    adapter.plusAdapterList(body)
+                    if (page == 1) adapter.setAdapterList(body) else adapter.plusAdapterList(body)
                     adapter.setOnFootViewAttachedToWindowListener {
                         if (body.isNotEmpty()) getData(
                             page + 1
