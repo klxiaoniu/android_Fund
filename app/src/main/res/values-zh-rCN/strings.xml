@@ -41,7 +41,7 @@
     <string name="new_description">描述</string>
     <string name="new_picture">图片</string>
     <string name="new_total_needed">总需</string>
-    <string name="new_ubmit">提交</string>
+    <string name="new_submit">提交</string>
     <string-array name="list_me">
         <item>登录</item>
         <item>审核</item>

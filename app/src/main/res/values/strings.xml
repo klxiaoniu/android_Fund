@@ -42,7 +42,7 @@
     <string name="new_description">Description</string>
     <string name="new_picture">Picture</string>
     <string name="new_total_needed">Total needed</string>
-    <string name="new_ubmit">Submit</string>
+    <string name="new_submit">Submit</string>
     <string-array name="list_me">
         <item>登录</item>
         <item>审核</item>
