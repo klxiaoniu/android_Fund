@@ -104,22 +104,30 @@ class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
                                     .load(user.imageUrl)
                                     .apply(options)
                                     .into(binding.userAvatar)
-                            } else ToastShort(getString(R.string.toast_response_error))
+                            } else {
+                                ToastShort(getString(R.string.toast_response_error))
+                                finish()
+                            }
                         }
 
                         override fun onFailure(call: Call<User>, t: Throwable) {
                             t.printStackTrace()
-                            t.message?.let { ToastLong(it) }
+                            ToastLong(t.toString())
+                            finish()
                         }
                     })
 
 
-                } else ToastShort(getString(R.string.toast_response_error))
+                } else {
+                    ToastShort(getString(R.string.toast_response_error))
+                    finish()
+                }
             }
 
             override fun onFailure(call: Call<Fund>, t: Throwable) {
                 t.printStackTrace()
-                t.message?.let { ToastLong(it) }
+                ToastLong(t.toString())
+                finish()
             }
         })
 
