@@ -17,9 +17,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".ui.ImageActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ProfileEditActivity"
             android:exported="false"
-            android:label="@string/btn_edit_profile"/>
+            android:label="@string/btn_edit_profile" />
         <activity
             android:name=".ui.MineActivity"
             android:exported="false"

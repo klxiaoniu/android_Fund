@@ -8,8 +8,12 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.VISIBLE
 import android.widget.EditText
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.github.piasy.biv.BigImageViewer
+import com.github.piasy.biv.loader.glide.GlideImageLoader
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.xiaoniu.fund.MyApplication.Companion.loggedInUser
 import com.xiaoniu.fund.MyApplication.Companion.updateUser
@@ -45,6 +49,7 @@ class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
             finish()
             return
         }
+        BigImageViewer.initialize(GlideImageLoader.with(application))
         getData()
     }
 
@@ -72,7 +77,16 @@ class FundDetailActivity : BaseActivity<ActivityFundDetailBinding>() {
                         .load(ServiceCreator.BASE_URL + fund.pic)
                         .apply(options)
                         .into(binding.fundIv)
-
+                    binding.fundIv.setOnClickListener {
+                        val intent = Intent(applicationContext, ImageActivity::class.java)
+                        intent.putExtra("url", ServiceCreator.BASE_URL + fund.pic)
+                        startActivity(
+                            intent, ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                this@FundDetailActivity,
+                                Pair.create(binding.fundIv, "big")
+                            ).toBundle()
+                        )
+                    }
                     when (intent.getIntExtra("isCheck", 0)) {
                         0 -> {
                             binding.fundLayoutPay.visibility = VISIBLE
